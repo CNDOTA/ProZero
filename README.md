@@ -239,12 +239,6 @@ using another allele. The run writes a CSV to `prozero/phla_tcr/results/`. In
 `prozero/phla_tcr/`, use `python batch_run.py --gpus 0` to run the 27 manuscript
 tasks. Use `--start-task` and `--end-task` to run a contiguous subset.
 
-## 2. Reproducibility status
-
-The manuscript data package contains figure-generation scripts and source data.
-See the [reproducibility checklist](RELEASE_CHECKLIST.md) for the remaining
-verification steps.
-
-## 3. Citation
+## 2. Citation
 
 If you use ProZero in your research, please cite the accompanying manuscript.
