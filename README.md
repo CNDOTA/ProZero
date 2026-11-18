@@ -1,32 +1,30 @@
 # ProZero
 
-ProZero is a protein language model-guided Pareto Monte Carlo tree search
-framework for multi-objective protein directed evolution. This repository
-stages the core search code used for the four tasks described in the
-accompanying manuscript.
+**Multi-objective protein directed evolution with pretrained protein language models and tree search**
 
-## Repository contents
+ProZero uses pretrained protein language models to propose mutations. Pareto
+Monte Carlo tree search uses feedback from property predictors to explore
+trade-offs across multiple design objectives. This repository contains the
+search implementations for the four benchmarks described in the manuscript.
 
-```text
-prozero/
-  avgfp/         unrestricted avGFP benchmark search
-    low_n/       avGFP low-N search
-  pab1/          PAB1 search implementation
-  gcgr_glp1r/    GCGR/GLP-1R search implementation
-  phla_tcr/      pHLA-TCR search implementation
-requirements-avgfp.txt
-requirements-pab1.txt
-requirements-gcgr-glp1r.txt
-requirements-phla-tcr.txt
-THIRD_PARTY.md
-RELEASE_CHECKLIST.md
-```
+[Run a benchmark](#benchmarks) · [Models and dependencies](THIRD_PARTY.md) · [License](LICENSE)
 
-Figure-generation code and source data are maintained with the manuscript data
-package and are intentionally not duplicated here. Generated results, model
-weights, licensed predictors and wet-laboratory data are excluded.
+![ProZero workflow, showing how protein language model priors and property scores guide Pareto tree search](docs/prozero-framework.png)
 
-## avGFP
+## Benchmarks
+
+| Task | Optimization objectives | Setup and run |
+| --- | --- | --- |
+| avGFP | Fluorescence and folding stability | [avGFP and low-N](#avgfp) |
+| PAB1 | RNA-binding score and folding stability | [PAB1](#pab1) |
+| GCGR/GLP-1R | Predicted potency at both receptors | [Dual agonist design](#gcgrglp-1r) |
+| pHLA–TCR | Peptide–HLA binding, peptide–TCR recognition, presentation and pHLA stability | [Epitope design](#phla-tcr) |
+
+The search implementations use CUDA. Each benchmark has a separate dependency
+list and setup instructions for obtaining its external model weights and
+predictors. [Third-party dependencies and assets](THIRD_PARTY.md).
+
+### avGFP
 
 Both avGFP implementations optimize predicted fluorescence and an additive
 Mutate Everything stability criterion. Install requirements-avgfp.txt.
@@ -74,7 +72,7 @@ defaults to twenty runs:
     cd low_n
     python batch_run.py --gpus 0
 
-## PAB1
+### PAB1
 
 The PAB1 implementation optimizes the TAPE-predicted functional score together
 with an additive Mutate Everything stability criterion. It uses ESM-1b to guide
@@ -107,7 +105,7 @@ independent runs reported in the manuscript:
 
 The code expects CUDA.
 
-## GCGR/GLP-1R
+### GCGR/GLP-1R
 
 This implementation optimizes the two predicted receptor potency objectives
 from PeptideModels. Install requirements-gcgr-glp1r.txt. Obtain PeptideModels
@@ -129,7 +127,7 @@ The batch launcher defaults to five runs with cpuct 10:
 
     python batch_run.py --gpus 0
 
-## pHLA-TCR
+### pHLA-TCR
 
 The pHLA-TCR implementation optimizes Bertrand, NetMHCpan, MHCflurry and
 NetMHCstab scores, with TULIP providing TCR- and HLA-conditioned mutation
@@ -183,11 +181,10 @@ Use `--start-task` and `--end-task` to run a contiguous subset.
 
 ## Reproducibility status
 
-This release includes the four uploaded task implementations. External model
-assets and licensed predictors must be obtained separately as described above.
-See `RELEASE_CHECKLIST.md` for the remaining code and documentation items.
+The manuscript data package contains figure-generation scripts and source data.
+See the [reproducibility checklist](RELEASE_CHECKLIST.md) for the remaining
+verification steps.
 
 ## Citation
 
-Please cite the ProZero manuscript. A final DOI and citation metadata should be
-added before the public release.
+If you use ProZero in your research, please cite the accompanying manuscript.
