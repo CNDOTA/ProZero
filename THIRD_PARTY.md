@@ -8,7 +8,7 @@ Follow each provider's installation and licensing instructions.
 | Component | Used by | Source | Expected local location or behavior |
 | --- | --- | --- | --- |
 | TAPE avGFP landscape checkpoint | avGFP fluorescence oracle | [Manuscript checkpoint archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view) | `prozero/avgfp/tape_landscape/avGFP/` |
-| Mutate Everything avGFP lookup | avGFP stability objective | [Upstream code and weights](https://github.com/jozhang97/MutateEverything) | `prozero/avgfp/MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl` |
+| avGFP mutation lookup | avGFP main and low-N stability objective | [Bundled CSV](prozero/avgfp/assets/avgfp_ddg_lookup.csv), predicted with [Mutate Everything](https://github.com/jozhang97/MutateEverything) | Loaded automatically by both avGFP runs. |
 | ESM-1b landscape decoder | avGFP low-N fluorescence oracle | Project-specific asset | Root selected by `PROZERO_ESM1B_LANDSCAPE`, containing `esm_params/`, `avGFP/decoder.pt` and `avGFP/starting_sequence.json` |
 | ESM-1b / fair-esm | avGFP, PAB1 and GCGR/GLP-1R mutation guidance | [ESM-1b model card and weights](https://huggingface.co/facebook/esm1b_t33_650M_UR50S) | `fair-esm` downloads its checkpoint on first use unless already cached. |
 | TAPE PAB1 landscape checkpoint | PAB1 oracle | [Manuscript checkpoint archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view) | `prozero/pab1/tape_landscape/Pab1/` |
@@ -20,10 +20,11 @@ Follow each provider's installation and licensing instructions.
 | MHCflurry | Presentation objective | [Upstream installation and model download instructions](https://github.com/openvax/mhcflurry) | Install the version in [`requirements-phla-tcr.txt`](requirements-phla-tcr.txt) and download the model data. |
 | PeptideModels | GCGR/GLP-1R potency objectives | [Upstream code and models](https://github.com/amp91/PeptideModels) | `prozero/gcgr_glp1r/PeptideModels/peptide_models/`, including `models/` |
 
-The Mutate Everything rows link to the upstream project. Prepare the avGFP and
-PAB1 lookup files separately at the paths above. The low-N search also needs
-the project-specific decoder and starting-sequence file in addition to the
-base ESM-1b weights.
+The bundled avGFP lookup contains the single-site ΔΔG predictions used by the
+benchmarks, in kcal/mol. Positions are zero-based in the search sequence, which
+omits the fixed initial methionine. Prepare the PAB1 lookup at the path above.
+The low-N search also needs its project-specific decoder and starting-sequence
+file in addition to the base ESM-1b weights.
 
 ## pHLA–TCR setup
 

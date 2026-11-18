@@ -51,12 +51,13 @@ conda activate prozero-avgfp
 python -m pip install -r requirements-avgfp.txt
 ```
 
-**Main benchmark.** Obtain the TAPE checkpoint and prepare the avGFP mutation
-lookup at the following paths. [Checkpoint and lookup sources](THIRD_PARTY.md).
+**Main benchmark.** Follow the [third-party setup instructions](THIRD_PARTY.md)
+to download the TAPE checkpoint and place it at the path below.
+Both avGFP runs load the bundled
+[mutation lookup](prozero/avgfp/assets/avgfp_ddg_lookup.csv) automatically.
 
 ```text
 prozero/avgfp/tape_landscape/avGFP/
-prozero/avgfp/MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl
 ```
 
 ```bash
@@ -69,12 +70,11 @@ methionine and allows edits at the remaining 237 residues with a trust radius
 of 100. To run all five
 benchmark trials, use `python batch_run.py --gpus 0` in `prozero/avgfp/`.
 
-**Low-N benchmark.** In addition to the same mutation lookup, this run requires
-the fine-tuned ESM-1b landscape files. Place or link the following assets under
+**Low-N benchmark.** This run requires the fine-tuned ESM-1b landscape files.
+Place or link the following assets under
 `prozero/avgfp/low_n/`.
 
 ```text
-MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl
 esm1b_landscape/esm_params/
 esm1b_landscape/avGFP/decoder.pt
 esm1b_landscape/avGFP/starting_sequence.json
