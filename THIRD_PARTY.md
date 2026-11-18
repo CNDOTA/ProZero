@@ -1,6 +1,6 @@
 # Third-party dependencies and assets
 
-Start with the [Python environment and requirements](README.md#installation)
+Start with the [Python environment and requirements](README.md#10-installation)
 for your benchmark. Then obtain the assets for that task from the sources below
 and place them at the listed paths, which are relative to the repository root.
 Follow each provider's installation and licensing instructions.

@@ -17,7 +17,7 @@ search implementations for the four benchmarks described in the manuscript.
 
 ## 1. Benchmarks
 
-### Installation
+### 1.0 Installation
 
 Clone the repository once, then follow the setup instructions for the task you
 want to run. Each task uses a separate Python 3.10 environment. The search
@@ -49,7 +49,9 @@ driver and the [CUDA wheels for PyTorch 2.2.2](https://pytorch.org/get-started/p
 Both avGFP implementations optimize predicted fluorescence and an additive
 Mutate Everything stability criterion.
 
-**Install.** From the repository root, create the environment for both avGFP runs.
+#### 1.1.1 Install
+
+From the repository root, create the environment for both avGFP runs.
 
 ```bash
 conda create -n prozero-avgfp python=3.10 pip
@@ -57,7 +59,9 @@ conda activate prozero-avgfp
 python -m pip install -r requirements-avgfp.txt
 ```
 
-**Main benchmark.** Follow the [third-party setup instructions](THIRD_PARTY.md)
+#### 1.1.2 Main benchmark
+
+Follow the [third-party setup instructions](THIRD_PARTY.md)
 to download the TAPE checkpoint and place it at the path below.
 Both avGFP runs load the bundled
 [mutation lookup](prozero/avgfp/assets/avgfp_ddg_lookup.csv) automatically.
@@ -76,7 +80,9 @@ methionine and allows edits at the remaining 237 residues with a trust radius
 of 100. To run all five
 benchmark trials, use `python batch_run.py --gpus 0` in `prozero/avgfp/`.
 
-**Low-N benchmark.** This run requires the fine-tuned ESM-1b landscape files.
+#### 1.1.3 Low-N benchmark
+
+This run requires the fine-tuned ESM-1b landscape files.
 Place or link the following assets under
 `prozero/avgfp/low_n/`.
 
@@ -105,7 +111,9 @@ The PAB1 implementation optimizes the TAPE-predicted functional score together
 with an additive Mutate Everything stability criterion. It uses ESM-1b to guide
 mutation proposals and a multi-output value network in Pareto MCTS.
 
-**Install.** Run these commands from the repository root.
+#### 1.2.1 Install
+
+Run these commands from the repository root.
 
 ```bash
 conda create -n prozero-pab1 python=3.10 pip
@@ -113,7 +121,9 @@ conda activate prozero-pab1
 python -m pip install -r requirements-pab1.txt
 ```
 
-**Prepare assets.** Follow the [third-party setup instructions](THIRD_PARTY.md)
+#### 1.2.2 Prepare assets
+
+Follow the [third-party setup instructions](THIRD_PARTY.md)
 to download the TAPE checkpoint and place it at the path below. The PAB1 search
 loads the bundled [mutation lookup](prozero/pab1/assets/pab1_ddg_lookup.csv)
 automatically.
@@ -122,7 +132,9 @@ automatically.
 prozero/pab1/tape_landscape/Pab1/
 ```
 
-**Run.** From the repository root:
+#### 1.2.3 Run
+
+From the repository root:
 
 ```bash
 cd prozero/pab1
@@ -137,7 +149,9 @@ use `python batch_run.py --gpus 0` in `prozero/pab1/`.
 This implementation optimizes the two predicted receptor potency objectives
 from PeptideModels.
 
-**Install.** Run these commands from the repository root.
+#### 1.3.1 Install
+
+Run these commands from the repository root.
 
 ```bash
 conda create -n prozero-gcgr-glp1r python=3.10 pip
@@ -145,7 +159,9 @@ conda activate prozero-gcgr-glp1r
 python -m pip install -r requirements-gcgr-glp1r.txt
 ```
 
-**Prepare assets.** Obtain [PeptideModels](https://github.com/amp91/PeptideModels)
+#### 1.3.2 Prepare assets
+
+Obtain [PeptideModels](https://github.com/amp91/PeptideModels)
 and place its importable package and trained models at the following paths.
 The potency ensemble runs on CPU. The ESM-guided search and value network use CUDA.
 
@@ -154,7 +170,9 @@ prozero/gcgr_glp1r/PeptideModels/peptide_models/
 prozero/gcgr_glp1r/PeptideModels/peptide_models/models/
 ```
 
-**Run.** From the repository root:
+#### 1.3.3 Run
+
+From the repository root:
 
 ```bash
 cd prozero/gcgr_glp1r
@@ -171,7 +189,9 @@ The pHLA-TCR implementation optimizes Bertrand, NetMHCpan, MHCflurry and
 NetMHCstab scores, with TULIP providing TCR- and HLA-conditioned mutation
 guidance.
 
-**Install.** Run these commands from the repository root.
+#### 1.4.1 Install
+
+Run these commands from the repository root.
 
 ```bash
 conda create -n prozero-phla-tcr python=3.10 pip
@@ -180,7 +200,9 @@ python -m pip install -r requirements-phla-tcr.txt
 mhcflurry-downloads fetch
 ```
 
-**Prepare assets.** Obtain the BERTrand package and checkpoint, TULIP source
+#### 1.4.2 Prepare assets
+
+Obtain the BERTrand package and checkpoint, TULIP source
 and weights, and the standalone DTU tools. Place them inside `prozero/phla_tcr/`.
 [Download and setup instructions](THIRD_PARTY.md#phlatcr-setup).
 
@@ -196,7 +218,9 @@ netMHCpan-4.1/netMHCpan
 netMHCstabpan-1.0/netMHCstabpan
 ```
 
-**Run.** From the repository root:
+#### 1.4.3 Run
+
+From the repository root:
 
 ```bash
 cd prozero/phla_tcr
