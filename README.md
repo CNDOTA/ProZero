@@ -41,7 +41,7 @@ driver and the [CUDA wheels for PyTorch 2.2.2](https://pytorch.org/get-started/p
 | --- | --- | --- | --- |
 | 1.1 avGFP | Fluorescence and folding stability | [requirements-avgfp.txt](requirements-avgfp.txt) | [avGFP and low-N](#11-avgfp) |
 | 1.2 PAB1 | RNA-binding score and folding stability | [requirements-pab1.txt](requirements-pab1.txt) | [PAB1](#12-pab1) |
-| 1.3 GCGR/GLP-1R | Predicted potency at both receptors | [requirements-gcgr-glp1r.txt](requirements-gcgr-glp1r.txt) | [Dual agonist design](#13-gcgrglp-1r) |
+| 1.3&nbsp;GCGR&#8288;/&#8288;GLP&#8288;-&#8288;1R | Predicted potency at both receptors | [requirements-gcgr-glp1r.txt](requirements-gcgr-glp1r.txt) | [Dual agonist design](#13-gcgrglp-1r) |
 | 1.4 pHLA–TCR | Peptide–HLA binding, peptide–TCR recognition, presentation and pHLA stability | [requirements-phla-tcr.txt](requirements-phla-tcr.txt) | [Epitope design](#14-phla-tcr) |
 
 ### 1.1 avGFP
