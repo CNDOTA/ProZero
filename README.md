@@ -11,21 +11,42 @@ search implementations for the four benchmarks described in the manuscript.
 
 ## 1. Benchmarks
 
-| Task | Optimization objectives | Setup and run |
-| --- | --- | --- |
-| avGFP | Fluorescence and folding stability | [avGFP and low-N](#avgfp) |
-| PAB1 | RNA-binding score and folding stability | [PAB1](#pab1) |
-| GCGR/GLP-1R | Predicted potency at both receptors | [Dual agonist design](#gcgrglp-1r) |
-| pHLA–TCR | Peptide–HLA binding, peptide–TCR recognition, presentation and pHLA stability | [Epitope design](#phla-tcr) |
+### Installation
 
-The search implementations use CUDA. Each benchmark has a separate dependency
-list and setup instructions for obtaining its external model weights and
-predictors. [Third-party dependencies and assets](THIRD_PARTY.md).
+Clone the repository and create a Python 3.10 environment. The search requires
+an NVIDIA GPU and a CUDA-enabled PyTorch installation.
+
+```bash
+git clone https://github.com/CNDOTA/ProZero.git
+cd ProZero
+conda create -n prozero python=3.10 pip
+conda activate prozero
+```
+
+From the repository root, install the requirements for one benchmark. For
+example, to set up avGFP:
+
+```bash
+python -m pip install -r requirements-avgfp.txt
+python -c "import torch; print(torch.cuda.is_available())"
+```
+
+The CUDA check should print `True`. If it prints `False`, check your NVIDIA
+driver and the [CUDA wheels for PyTorch 2.2.2](https://pytorch.org/get-started/previous-versions/).
+Then follow the [third-party setup instructions](THIRD_PARTY.md) to place the
+required model weights and executables before running the benchmark.
+
+| Task | Optimization objectives | Python requirements | Setup and run |
+| --- | --- | --- | --- |
+| avGFP | Fluorescence and folding stability | [requirements-avgfp.txt](requirements-avgfp.txt) | [avGFP and low-N](#avgfp) |
+| PAB1 | RNA-binding score and folding stability | [requirements-pab1.txt](requirements-pab1.txt) | [PAB1](#pab1) |
+| GCGR/GLP-1R | Predicted potency at both receptors | [requirements-gcgr-glp1r.txt](requirements-gcgr-glp1r.txt) | [Dual agonist design](#gcgrglp-1r) |
+| pHLA–TCR | Peptide–HLA binding, peptide–TCR recognition, presentation and pHLA stability | [requirements-phla-tcr.txt](requirements-phla-tcr.txt) | [Epitope design](#phla-tcr) |
 
 ### avGFP
 
 Both avGFP implementations optimize predicted fluorescence and an additive
-Mutate Everything stability criterion. Install requirements-avgfp.txt.
+Mutate Everything stability criterion.
 
 The unrestricted benchmark uses the TAPE checkpoint and mutation lookup at:
 
@@ -76,12 +97,6 @@ The PAB1 implementation optimizes the TAPE-predicted functional score together
 with an additive Mutate Everything stability criterion. It uses ESM-1b to guide
 mutation proposals and a multi-output value network in Pareto MCTS.
 
-Install the Python dependencies in a Python 3.10 environment:
-
-```bash
-pip install -r requirements-pab1.txt
-```
-
 Before running, provide these external assets inside `prozero/pab1/`:
 
 ```text
@@ -106,7 +121,7 @@ The code expects CUDA.
 ### GCGR/GLP-1R
 
 This implementation optimizes the two predicted receptor potency objectives
-from PeptideModels. Install requirements-gcgr-glp1r.txt. Obtain PeptideModels
+from PeptideModels. Obtain PeptideModels
 separately and place its importable package and trained models at:
 
     prozero/gcgr_glp1r/PeptideModels/peptide_models/
@@ -131,10 +146,6 @@ The pHLA-TCR implementation optimizes Bertrand, NetMHCpan, MHCflurry and
 NetMHCstab scores, with TULIP providing TCR- and HLA-conditioned mutation
 guidance.
 
-```bash
-pip install -r requirements-phla-tcr.txt
-```
-
 The implementation also requires the separately obtained assets below inside
 `prozero/phla_tcr/`:
 
@@ -150,8 +161,8 @@ netMHCpan-4.1/netMHCpan
 netMHCstabpan-1.0/netMHCstabpan
 ```
 
-Install the MHCflurry models using the instructions from the MHCflurry project.
-NetMHCpan and NetMHCstabpan have their own licenses and are not redistributed.
+Follow the [pHLA–TCR setup instructions](THIRD_PARTY.md#phlatcr-setup) for
+MHCflurry model data and the local DTU executables.
 
 Run one task from the task directory:
 
