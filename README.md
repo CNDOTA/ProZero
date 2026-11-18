@@ -39,12 +39,12 @@ driver and the [CUDA wheels for PyTorch 2.2.2](https://pytorch.org/get-started/p
 
 | Task | Optimization objectives | Python requirements | Setup and run |
 | --- | --- | --- | --- |
-| avGFP | Fluorescence and folding stability | [requirements-avgfp.txt](requirements-avgfp.txt) | [avGFP and low-N](#avgfp) |
-| PAB1 | RNA-binding score and folding stability | [requirements-pab1.txt](requirements-pab1.txt) | [PAB1](#pab1) |
-| GCGR/GLP-1R | Predicted potency at both receptors | [requirements-gcgr-glp1r.txt](requirements-gcgr-glp1r.txt) | [Dual agonist design](#gcgrglp-1r) |
-| pHLA–TCR | Peptide–HLA binding, peptide–TCR recognition, presentation and pHLA stability | [requirements-phla-tcr.txt](requirements-phla-tcr.txt) | [Epitope design](#phla-tcr) |
+| 1.1 avGFP | Fluorescence and folding stability | [requirements-avgfp.txt](requirements-avgfp.txt) | [avGFP and low-N](#11-avgfp) |
+| 1.2 PAB1 | RNA-binding score and folding stability | [requirements-pab1.txt](requirements-pab1.txt) | [PAB1](#12-pab1) |
+| 1.3 GCGR/GLP-1R | Predicted potency at both receptors | [requirements-gcgr-glp1r.txt](requirements-gcgr-glp1r.txt) | [Dual agonist design](#13-gcgrglp-1r) |
+| 1.4 pHLA–TCR | Peptide–HLA binding, peptide–TCR recognition, presentation and pHLA stability | [requirements-phla-tcr.txt](requirements-phla-tcr.txt) | [Epitope design](#14-phla-tcr) |
 
-### avGFP
+### 1.1 avGFP
 
 Both avGFP implementations optimize predicted fluorescence and an additive
 Mutate Everything stability criterion.
@@ -99,7 +99,7 @@ The run writes a CSV ending in `lown_r7_81aa.csv` under
 maximum depth of seven. In `prozero/avgfp/low_n/`, use
 `python batch_run.py --gpus 0` for the 20-trial configuration.
 
-### PAB1
+### 1.2 PAB1
 
 The PAB1 implementation optimizes the TAPE-predicted functional score together
 with an additive Mutate Everything stability criterion. It uses ESM-1b to guide
@@ -132,7 +132,7 @@ python train.py --idx 1 --method prozero --gpus 0
 The run writes a CSV to `prozero/pab1/results/`. To run all ten benchmark trials,
 use `python batch_run.py --gpus 0` in `prozero/pab1/`.
 
-### GCGR/GLP-1R
+### 1.3 GCGR/GLP-1R
 
 This implementation optimizes the two predicted receptor potency objectives
 from PeptideModels.
@@ -165,7 +165,7 @@ The run writes a CSV ending in `c_puct10.csv` under `prozero/gcgr_glp1r/results/
 In `prozero/gcgr_glp1r/`, use `python batch_run.py --gpus 0` for the five-trial
 configuration with `cpuct=10`.
 
-### pHLA-TCR
+### 1.4 pHLA-TCR
 
 The pHLA-TCR implementation optimizes Bertrand, NetMHCpan, MHCflurry and
 NetMHCstab scores, with TULIP providing TCR- and HLA-conditioned mutation
