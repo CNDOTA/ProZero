@@ -82,18 +82,8 @@ benchmark trials, use `python batch_run.py --gpus 0` in `prozero/avgfp/`.
 
 #### 1.1.3 Low-N benchmark
 
-Download the [PEX landscape archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view).
-Extract these two files from the archive:
-
-```text
-landscape_params/esm1b_landscape/avGFP/decoder.pt
-landscape_params/esm1b_landscape/avGFP/starting_sequence.json
-```
-
-Place them in `prozero/avgfp/low_n/esm1b_landscape/avGFP/`. The loader also
-expects `esm_params/` under the same landscape root. Set
-`PROZERO_ESM1B_LANDSCAPE` if the landscape root is stored elsewhere.
-From the repository root:
+Follow the [low-N weight setup](THIRD_PARTY.md#avgfp-low-n-setup), then run
+the benchmark from the repository root.
 
 ```bash
 cd prozero/avgfp/low_n
