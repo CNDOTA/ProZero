@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments and editors
+.venv/
+venv/
+.env
+.idea/
+.vscode/
+*.swp
+
+# Runtime outputs
+results/*
+!results/.gitkeep
+prozero/*/results/*
+!prozero/*/results/.gitkeep
+prozero/*/*/results/*
+!prozero/*/*/results/.gitkeep
+*.log
+*.tmp
+
+# Models, checkpoints and generated caches
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.pkl
+*.h5ad
+adata.pkl
+tape_landscape/
+MutateEverything/
+PeptideModels/
+esm1b_landscape/
+bertrand/
+TULIP/
+netMHCpan-4.1/
+netMHCstabpan-1.0/
+mhcflurry_models/
+hhsuite/
+
+# Large scientific and presentation files
+*.fcs
+*.wsp
+*.prism
+*.pzfx
+*.pse
+*.pdb
+*.cif
+*.pptx
+*.xlsx
+*.zip
+*.tar.gz
+
+# OS files
+.DS_Store
+Thumbs.db

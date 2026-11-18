@@ -1,0 +1,8 @@
+numpy==1.24.4
+pandas==2.2.1
+torch==2.2.2
+numba==0.58.1
+fair-esm==2.0.0
+tape-proteins==0.5
+sequence-models @ git+https://github.com/microsoft/protein-sequence-models.git
+tqdm==4.66.2
