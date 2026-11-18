@@ -13,28 +13,23 @@ search implementations for the four benchmarks described in the manuscript.
 
 ### Installation
 
-Clone the repository and create a Python 3.10 environment. The search requires
-an NVIDIA GPU and a CUDA-enabled PyTorch installation.
+Clone the repository once, then follow the setup instructions for the task you
+want to run. Each task uses a separate Python 3.10 environment. The search
+requires an NVIDIA GPU and a CUDA-enabled PyTorch installation.
 
 ```bash
 git clone https://github.com/CNDOTA/ProZero.git
 cd ProZero
-conda create -n prozero python=3.10 pip
-conda activate prozero
 ```
 
-From the repository root, install the requirements for one benchmark. For
-example, to set up avGFP:
+After installing a task's requirements, check CUDA from its active environment:
 
 ```bash
-python -m pip install -r requirements-avgfp.txt
 python -c "import torch; print(torch.cuda.is_available())"
 ```
 
 The CUDA check should print `True`. If it prints `False`, check your NVIDIA
 driver and the [CUDA wheels for PyTorch 2.2.2](https://pytorch.org/get-started/previous-versions/).
-Then follow the [third-party setup instructions](THIRD_PARTY.md) to place the
-required model weights and executables before running the benchmark.
 
 | Task | Optimization objectives | Python requirements | Setup and run |
 | --- | --- | --- | --- |
@@ -48,48 +43,55 @@ required model weights and executables before running the benchmark.
 Both avGFP implementations optimize predicted fluorescence and an additive
 Mutate Everything stability criterion.
 
-The unrestricted benchmark uses the TAPE checkpoint and mutation lookup at:
+**Install.** From the repository root, create the environment for both avGFP runs.
 
-    prozero/avgfp/tape_landscape/avGFP/
-    prozero/avgfp/MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl
+```bash
+conda create -n prozero-avgfp python=3.10 pip
+conda activate prozero-avgfp
+python -m pip install -r requirements-avgfp.txt
+```
 
-The low-N search uses the same mutation lookup and a fine-tuned ESM-1b decoder.
-From prozero/avgfp/low_n, provide or link:
+**Main benchmark.** Obtain the TAPE checkpoint and prepare the avGFP mutation
+lookup at the following paths. [Checkpoint and lookup sources](THIRD_PARTY.md).
 
-    MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl
-    esm1b_landscape/esm_params/
-    esm1b_landscape/avGFP/decoder.pt
-    esm1b_landscape/avGFP/starting_sequence.json
+```text
+prozero/avgfp/tape_landscape/avGFP/
+prozero/avgfp/MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl
+```
 
-Set PROZERO_ESM1B_LANDSCAPE if the ESM landscape root is stored elsewhere.
+```bash
+cd prozero/avgfp
+python train.py --idx 1 --method prozero --gpus 0
+```
 
-Run the unrestricted main benchmark search:
+The run writes a CSV to `prozero/avgfp/results/`. The search fixes the initial
+methionine and allows edits at the remaining 237 residues with a trust radius
+of 100. To run all five
+benchmark trials, use `python batch_run.py --gpus 0` in `prozero/avgfp/`.
 
-    cd prozero/avgfp
-    python train.py --idx 1 --method prozero --gpus 0
+**Low-N benchmark.** In addition to the same mutation lookup, this run requires
+the fine-tuned ESM-1b landscape files. Place or link the following assets under
+`prozero/avgfp/low_n/`.
 
-The full avGFP sequence has 238 residues. Its initial methionine is fixed and
-omitted from the search state; this searches all remaining 237 designable
-residues with a maximum mutation depth of 100 and writes the main benchmark
-filename.
+```text
+MutateEverything/example/avgfp_esm/avgfp_mut_dict.pkl
+esm1b_landscape/esm_params/
+esm1b_landscape/avGFP/decoder.pt
+esm1b_landscape/avGFP/starting_sequence.json
+```
 
-Run the low-N search separately:
+Set `PROZERO_ESM1B_LANDSCAPE` if these landscape files are stored elsewhere.
+From the repository root:
 
-    cd prozero/avgfp/low_n
-    python train.py --idx 1 --method prozero --gpus 0
+```bash
+cd prozero/avgfp/low_n
+python train.py --idx 1 --method prozero --gpus 0
+```
 
-The low-N implementation limits mutations to positions 29-109 and sets the
-maximum mutation depth to seven. It writes a filename ending in
-lown_r7_81aa.csv.
-
-The unrestricted batch launcher defaults to five runs; the low-N batch launcher
-defaults to twenty runs:
-
-    cd prozero/avgfp
-    python batch_run.py --gpus 0
-
-    cd low_n
-    python batch_run.py --gpus 0
+The run writes a CSV ending in `lown_r7_81aa.csv` under
+`prozero/avgfp/low_n/results/`. It restricts edits to positions 29–109 with a
+maximum depth of seven. In `prozero/avgfp/low_n/`, use
+`python batch_run.py --gpus 0` for the 20-trial configuration.
 
 ### PAB1
 
@@ -97,48 +99,64 @@ The PAB1 implementation optimizes the TAPE-predicted functional score together
 with an additive Mutate Everything stability criterion. It uses ESM-1b to guide
 mutation proposals and a multi-output value network in Pareto MCTS.
 
-Before running, provide these external assets inside `prozero/pab1/`:
+**Install.** Run these commands from the repository root.
+
+```bash
+conda create -n prozero-pab1 python=3.10 pip
+conda activate prozero-pab1
+python -m pip install -r requirements-pab1.txt
+```
+
+**Prepare assets.** Place the TAPE checkpoint and mutation lookup inside
+`prozero/pab1/`. [Checkpoint and lookup sources](THIRD_PARTY.md).
 
 ```text
 tape_landscape/Pab1/
 MutateEverything/example/pab1_esm/pab1_mut_dict.pkl
 ```
 
-Run one search from the task directory:
+**Run.** From the repository root:
 
 ```bash
 cd prozero/pab1
 python train.py --idx 1 --method prozero --gpus 0
 ```
 
-The result is written to `results/`. The batch launcher defaults to the ten
-independent runs reported in the manuscript:
-
-    python batch_run.py --gpus 0
-
-The code expects CUDA.
+The run writes a CSV to `prozero/pab1/results/`. To run all ten benchmark trials,
+use `python batch_run.py --gpus 0` in `prozero/pab1/`.
 
 ### GCGR/GLP-1R
 
 This implementation optimizes the two predicted receptor potency objectives
-from PeptideModels. Obtain PeptideModels
-separately and place its importable package and trained models at:
+from PeptideModels.
 
-    prozero/gcgr_glp1r/PeptideModels/peptide_models/
-    prozero/gcgr_glp1r/PeptideModels/peptide_models/models/
+**Install.** Run these commands from the repository root.
 
-Run one search:
+```bash
+conda create -n prozero-gcgr-glp1r python=3.10 pip
+conda activate prozero-gcgr-glp1r
+python -m pip install -r requirements-gcgr-glp1r.txt
+```
 
-    cd prozero/gcgr_glp1r
-    python train.py --idx 1 --method prozero --gpus 0 --cpuct 10
+**Prepare assets.** Obtain [PeptideModels](https://github.com/amp91/PeptideModels)
+and place its importable package and trained models at the following paths.
+The potency ensemble runs on CPU. The ESM-guided search and value network use CUDA.
 
-The potency ensemble is evaluated on CPU in the historical implementation;
-ESM-guided search and the value network use CUDA. The public-release copy writes
-the standard c_puct result filename rather than the uploaded timing-run name.
+```text
+prozero/gcgr_glp1r/PeptideModels/peptide_models/
+prozero/gcgr_glp1r/PeptideModels/peptide_models/models/
+```
 
-The batch launcher defaults to five runs with cpuct 10:
+**Run.** From the repository root:
 
-    python batch_run.py --gpus 0
+```bash
+cd prozero/gcgr_glp1r
+python train.py --idx 1 --method prozero --gpus 0 --cpuct 10
+```
+
+The run writes a CSV ending in `c_puct10.csv` under `prozero/gcgr_glp1r/results/`.
+In `prozero/gcgr_glp1r/`, use `python batch_run.py --gpus 0` for the five-trial
+configuration with `cpuct=10`.
 
 ### pHLA-TCR
 
@@ -146,8 +164,18 @@ The pHLA-TCR implementation optimizes Bertrand, NetMHCpan, MHCflurry and
 NetMHCstab scores, with TULIP providing TCR- and HLA-conditioned mutation
 guidance.
 
-The implementation also requires the separately obtained assets below inside
-`prozero/phla_tcr/`:
+**Install.** Run these commands from the repository root.
+
+```bash
+conda create -n prozero-phla-tcr python=3.10 pip
+conda activate prozero-phla-tcr
+python -m pip install -r requirements-phla-tcr.txt
+mhcflurry-downloads fetch
+```
+
+**Prepare assets.** Obtain the BERTrand package and checkpoint, TULIP source
+and weights, and the standalone DTU tools. Place them inside `prozero/phla_tcr/`.
+[Download and setup instructions](THIRD_PARTY.md#phlatcr-setup).
 
 ```text
 bertrand/best_checkpoint/
@@ -161,10 +189,7 @@ netMHCpan-4.1/netMHCpan
 netMHCstabpan-1.0/netMHCstabpan
 ```
 
-Follow the [pHLA–TCR setup instructions](THIRD_PARTY.md#phlatcr-setup) for
-MHCflurry model data and the local DTU executables.
-
-Run one task from the task directory:
+**Run.** From the repository root:
 
 ```bash
 cd prozero/phla_tcr
@@ -179,14 +204,9 @@ python train.py \
 ```
 
 The default HLA sequence corresponds to HLA-A*02:01. Supply `--hla_seq` when
-using another allele. The result is written to `results/`.
-
-The batch launcher contains all 27 manuscript task definitions and runs each
-task once:
-
-    python batch_run.py --gpus 0
-
-Use `--start-task` and `--end-task` to run a contiguous subset.
+using another allele. The run writes a CSV to `prozero/phla_tcr/results/`. In
+`prozero/phla_tcr/`, use `python batch_run.py --gpus 0` to run the 27 manuscript
+tasks. Use `--start-task` and `--end-task` to run a contiguous subset.
 
 ## 2. Reproducibility status
 
