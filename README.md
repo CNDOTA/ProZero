@@ -7,11 +7,9 @@ Monte Carlo tree search uses feedback from property predictors to explore
 trade-offs across multiple design objectives. This repository contains the
 search implementations for the four benchmarks described in the manuscript.
 
-[Run a benchmark](#benchmarks) · [Models and dependencies](THIRD_PARTY.md) · [License](LICENSE)
-
 ![ProZero workflow, showing how protein language model priors and property scores guide Pareto tree search](docs/prozero-framework.png)
 
-## Benchmarks
+## 1. Benchmarks
 
 | Task | Optimization objectives | Setup and run |
 | --- | --- | --- |
@@ -179,12 +177,12 @@ task once:
 
 Use `--start-task` and `--end-task` to run a contiguous subset.
 
-## Reproducibility status
+## 2. Reproducibility status
 
 The manuscript data package contains figure-generation scripts and source data.
 See the [reproducibility checklist](RELEASE_CHECKLIST.md) for the remaining
 verification steps.
 
-## Citation
+## 3. Citation
 
 If you use ProZero in your research, please cite the accompanying manuscript.
