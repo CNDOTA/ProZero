@@ -82,17 +82,17 @@ benchmark trials, use `python batch_run.py --gpus 0` in `prozero/avgfp/`.
 
 #### 1.1.3 Low-N benchmark
 
-This run requires the fine-tuned ESM-1b landscape files.
-Place or link the following assets under
-`prozero/avgfp/low_n/`.
+Download the [PEX landscape archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view).
+Extract these two files from the archive:
 
 ```text
-esm1b_landscape/esm_params/
-esm1b_landscape/avGFP/decoder.pt
-esm1b_landscape/avGFP/starting_sequence.json
+landscape_params/esm1b_landscape/avGFP/decoder.pt
+landscape_params/esm1b_landscape/avGFP/starting_sequence.json
 ```
 
-Set `PROZERO_ESM1B_LANDSCAPE` if these landscape files are stored elsewhere.
+Place them in `prozero/avgfp/low_n/esm1b_landscape/avGFP/`. The loader also
+expects `esm_params/` under the same landscape root. Set
+`PROZERO_ESM1B_LANDSCAPE` if the landscape root is stored elsewhere.
 From the repository root:
 
 ```bash

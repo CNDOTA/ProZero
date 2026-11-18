@@ -9,7 +9,7 @@ Follow each provider's installation and licensing instructions.
 | --- | --- | --- | --- |
 | TAPE avGFP landscape checkpoint | avGFP fluorescence oracle | [Manuscript checkpoint archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view) | `prozero/avgfp/tape_landscape/avGFP/` |
 | avGFP mutation lookup | avGFP main and low-N stability objective | [Bundled CSV](prozero/avgfp/assets/avgfp_ddg_lookup.csv), predicted with [Mutate Everything](https://github.com/jozhang97/MutateEverything) | Loaded automatically by both avGFP runs. |
-| ESM-1b landscape decoder | avGFP low-N fluorescence oracle | Project-specific asset | Root selected by `PROZERO_ESM1B_LANDSCAPE`, containing `esm_params/`, `avGFP/decoder.pt` and `avGFP/starting_sequence.json` |
+| ESM-1b landscape decoder | avGFP low-N fluorescence oracle | [PEX landscape archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view), under `landscape_params/esm1b_landscape/avGFP/` | `prozero/avgfp/low_n/esm1b_landscape/avGFP/` or `avGFP/` under `PROZERO_ESM1B_LANDSCAPE` |
 | ESM-1b / fair-esm | avGFP, PAB1 and GCGR/GLP-1R mutation guidance | [ESM-1b model card and weights](https://huggingface.co/facebook/esm1b_t33_650M_UR50S) | `fair-esm` downloads its checkpoint on first use unless already cached. |
 | TAPE PAB1 landscape checkpoint | PAB1 oracle | [Manuscript checkpoint archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view) | `prozero/pab1/tape_landscape/Pab1/` |
 | PAB1 mutation lookup | PAB1 stability objective | [Bundled CSV](prozero/pab1/assets/pab1_ddg_lookup.csv), predicted with [Mutate Everything](https://github.com/jozhang97/MutateEverything) | Loaded automatically by the PAB1 search. |
@@ -23,8 +23,9 @@ Follow each provider's installation and licensing instructions.
 The bundled avGFP and PAB1 lookups contain the single-site ΔΔG predictions used
 by the benchmarks, in kcal/mol. Positions are zero-based in each search sequence.
 The avGFP search sequence omits the fixed initial methionine.
-The low-N search also needs its project-specific decoder and starting-sequence
-file in addition to the base ESM-1b weights.
+The low-N search uses the archive's `decoder.pt` and `starting_sequence.json`
+alongside the base ESM-1b model. See the [low-N setup](README.md#113-low-n-benchmark)
+for the archive paths.
 
 ## pHLA–TCR setup
 
