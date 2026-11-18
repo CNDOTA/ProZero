@@ -12,7 +12,7 @@ Follow each provider's installation and licensing instructions.
 | ESM-1b landscape decoder | avGFP low-N fluorescence oracle | Project-specific asset | Root selected by `PROZERO_ESM1B_LANDSCAPE`, containing `esm_params/`, `avGFP/decoder.pt` and `avGFP/starting_sequence.json` |
 | ESM-1b / fair-esm | avGFP, PAB1 and GCGR/GLP-1R mutation guidance | [ESM-1b model card and weights](https://huggingface.co/facebook/esm1b_t33_650M_UR50S) | `fair-esm` downloads its checkpoint on first use unless already cached. |
 | TAPE PAB1 landscape checkpoint | PAB1 oracle | [Manuscript checkpoint archive](https://drive.google.com/file/d/1uy9zgtJ60Z83LCbm7Z_AoksAkmK4CcsC/view) | `prozero/pab1/tape_landscape/Pab1/` |
-| Mutate Everything PAB1 lookup | PAB1 stability objective | [Upstream code and weights](https://github.com/jozhang97/MutateEverything) | `prozero/pab1/MutateEverything/example/pab1_esm/pab1_mut_dict.pkl` |
+| PAB1 mutation lookup | PAB1 stability objective | [Bundled CSV](prozero/pab1/assets/pab1_ddg_lookup.csv), predicted with [Mutate Everything](https://github.com/jozhang97/MutateEverything) | Loaded automatically by the PAB1 search. |
 | BERTrand | pHLA-TCR oracle | [Upstream code and checkpoint instructions](https://github.com/SFGLab/bertrand) | Python package tree under `prozero/phla_tcr/bertrand/` and checkpoint under `best_checkpoint/` |
 | TULIP | pHLA-TCR mutation guidance | [Upstream code and model weights](https://github.com/barthelemymp/TULIP-TCR) | Source, tokenizers, config and weights under `prozero/phla_tcr/TULIP/` |
 | NetMHCpan 4.1 | pHLA binding objective | [DTU software and Downloads tab](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) | `prozero/phla_tcr/netMHCpan-4.1/netMHCpan` |
@@ -20,9 +20,9 @@ Follow each provider's installation and licensing instructions.
 | MHCflurry | Presentation objective | [Upstream installation and model download instructions](https://github.com/openvax/mhcflurry) | Install the version in [`requirements-phla-tcr.txt`](requirements-phla-tcr.txt) and download the model data. |
 | PeptideModels | GCGR/GLP-1R potency objectives | [Upstream code and models](https://github.com/amp91/PeptideModels) | `prozero/gcgr_glp1r/PeptideModels/peptide_models/`, including `models/` |
 
-The bundled avGFP lookup contains the single-site ΔΔG predictions used by the
-benchmarks, in kcal/mol. Positions are zero-based in the search sequence, which
-omits the fixed initial methionine. Prepare the PAB1 lookup at the path above.
+The bundled avGFP and PAB1 lookups contain the single-site ΔΔG predictions used
+by the benchmarks, in kcal/mol. Positions are zero-based in each search sequence.
+The avGFP search sequence omits the fixed initial methionine.
 The low-N search also needs its project-specific decoder and starting-sequence
 file in addition to the base ESM-1b weights.
 

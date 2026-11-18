@@ -1,13 +1,19 @@
-# ProZero
+<h1 align="center">ProZero</h1>
 
-**Multi-objective protein directed evolution with pretrained protein language models and tree search**
+<p align="center"><strong>Multi-objective protein directed evolution with pretrained protein language models and tree search</strong></p>
+
+<p align="center">
+  <img src="docs/prozero-badges.png" width="376" alt="Python 3.10, PyTorch 2.2.2, four benchmarks">
+</p>
 
 ProZero uses pretrained protein language models to propose mutations. Pareto
 Monte Carlo tree search uses feedback from property predictors to explore
 trade-offs across multiple design objectives. This repository contains the
 search implementations for the four benchmarks described in the manuscript.
 
-![ProZero workflow, showing how protein language model priors and property scores guide Pareto tree search](docs/prozero-framework.png)
+<p align="center">
+  <img src="docs/prozero-framework.png" width="740" alt="ProZero workflow showing how protein language model priors and property scores guide Pareto tree search">
+</p>
 
 ## 1. Benchmarks
 
@@ -107,12 +113,13 @@ conda activate prozero-pab1
 python -m pip install -r requirements-pab1.txt
 ```
 
-**Prepare assets.** Place the TAPE checkpoint and mutation lookup inside
-`prozero/pab1/`. [Checkpoint and lookup sources](THIRD_PARTY.md).
+**Prepare assets.** Follow the [third-party setup instructions](THIRD_PARTY.md)
+to download the TAPE checkpoint and place it at the path below. The PAB1 search
+loads the bundled [mutation lookup](prozero/pab1/assets/pab1_ddg_lookup.csv)
+automatically.
 
 ```text
-tape_landscape/Pab1/
-MutateEverything/example/pab1_esm/pab1_mut_dict.pkl
+prozero/pab1/tape_landscape/Pab1/
 ```
 
 **Run.** From the repository root:

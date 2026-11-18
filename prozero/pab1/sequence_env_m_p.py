@@ -10,11 +10,14 @@ import tape
 from vocab import AAS, SCORE_DIM, WILD_PEP, SCORE_LIST, MAX_TAPE
 import subprocess
 import time
-import pickle as pkl
+import csv
+from pathlib import Path
 
 # TAPE
 tape_tokenizer = tape.TAPETokenizer(vocab="iupac")
-ddg_dict = pkl.load(open("./MutateEverything/example/pab1_esm/pab1_mut_dict.pkl", "rb"))
+ddg_lookup_path = Path(__file__).resolve().parent / "assets" / "pab1_ddg_lookup.csv"
+with ddg_lookup_path.open(newline="", encoding="utf-8") as lookup_file:
+    ddg_dict = {row["mutation"]: float(row["ddg_kcal_mol"]) for row in csv.DictReader(lookup_file)}
 
 
 def string_to_one_hot(sequence: str, alphabet: str) -> np.ndarray:
